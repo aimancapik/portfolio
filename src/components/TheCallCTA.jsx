@@ -2,7 +2,7 @@ import { motion } from 'framer-motion'
 
 const BUTTONS = [
   { label: 'View GitHub',          href: 'https://github.com/aimancapik',                    primary: true  },
-  { label: 'Connect on LinkedIn',  href: 'https://linkedin.com/in/aiman-syafiq',              primary: false },
+  { label: 'Connect on LinkedIn',  href: 'https://www.linkedin.com/in/aimansyafiq-/',              primary: false },
   { label: 'Send a Message',       href: 'mailto:aimancapik@gmail.com',                       primary: false },
 ]
 

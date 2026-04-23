@@ -68,8 +68,8 @@ function ChapterText({ chapter, compact }) {
 }
 
 // fade zone fraction — how much of progress is used for fade in/out
-const FADE_IN  = 0.08   // 0→FADE_IN   : fade from black
-const FADE_OUT = 0.88   // FADE_OUT→1  : fade to black
+const FADE_IN  = 0.04   // 0→FADE_IN   : fade from black
+const FADE_OUT = 0.94   // FADE_OUT→1  : fade to black
 
 export default function ChapterSection({ chapter, frames, onActive }) {
   const sectionRef      = useRef(null)

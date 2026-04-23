@@ -68,27 +68,27 @@ function ChapterText({ chapter, compact }) {
 }
 
 // fade zone fraction — how much of progress is used for fade in/out
-const FADE_IN  = 0.04   // 0→FADE_IN   : fade from black
+const FADE_IN = 0.04   // 0→FADE_IN   : fade from black
 const FADE_OUT = 0.94   // FADE_OUT→1  : fade to black
 
 export default function ChapterSection({ chapter, frames, onActive }) {
-  const sectionRef      = useRef(null)
-  const canvasRef       = useRef(null)
-  const overlayRef      = useRef(null)
-  const fadeRef         = useRef(null)
-  const targetP         = useRef(0)
-  const currentP        = useRef(0)
+  const sectionRef = useRef(null)
+  const canvasRef = useRef(null)
+  const overlayRef = useRef(null)
+  const fadeRef = useRef(null)
+  const targetP = useRef(0)
+  const currentP = useRef(0)
   const skillProgressRef = useRef(0)
 
   const [showContent, setShowContent] = useState(false)
-  const contentShown  = useRef(false)
+  const contentShown = useRef(false)
 
   // canvas resize
   useEffect(() => {
     const canvas = canvasRef.current
     if (!canvas) return
     const resize = () => {
-      canvas.width  = window.innerWidth
+      canvas.width = window.innerWidth
       canvas.height = window.innerHeight
       drawFrame(canvas, frames, 0, chapter)
     }
@@ -119,7 +119,7 @@ export default function ChapterSection({ chapter, frames, onActive }) {
       if (Math.abs(diff) < 0.002) {
         currentP.current = targetP.current
       } else {
-        currentP.current += diff * 0.12
+        currentP.current += diff * 0.04
       }
       const p = currentP.current
 
@@ -127,19 +127,19 @@ export default function ChapterSection({ chapter, frames, onActive }) {
       const canvas = canvasRef.current
       if (canvas) {
         const total = frames?.length ?? 1
-        const idx   = Math.min(Math.floor(p * total), total - 1)
+        const idx = Math.min(Math.floor(p * total), total - 1)
         drawFrame(canvas, frames, idx, chapter)
       }
 
       // text overlay — fade in on entry, fade out on exit
       const overlay = overlayRef.current
       if (overlay) {
-        const opacity = p < FADE_IN  ? p / FADE_IN
-                      : p > FADE_OUT ? (1 - p) / (1 - FADE_OUT)
-                      : 1
+        const opacity = p < FADE_IN ? p / FADE_IN
+          : p > FADE_OUT ? (1 - p) / (1 - FADE_OUT)
+            : 1
         const y = p < FADE_IN ? 28 * (1 - p / FADE_IN) : 0
-        overlay.style.opacity       = opacity
-        overlay.style.transform     = `translateY(${y}px)`
+        overlay.style.opacity = opacity
+        overlay.style.transform = `translateY(${y}px)`
         overlay.style.pointerEvents = opacity < 0.05 ? 'none' : 'auto'
       }
 
@@ -147,7 +147,7 @@ export default function ChapterSection({ chapter, frames, onActive }) {
       const fade = fadeRef.current
       if (fade) {
         let black = 0
-        if (p < FADE_IN)   black = 1 - (p / FADE_IN)
+        if (p < FADE_IN) black = 1 - (p / FADE_IN)
         else if (p > FADE_OUT) black = (p - FADE_OUT) / (1 - FADE_OUT)
         fade.style.opacity = black
       }

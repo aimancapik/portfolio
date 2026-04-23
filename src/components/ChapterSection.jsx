@@ -71,7 +71,7 @@ function ChapterText({ chapter, compact }) {
 const FADE_IN = 0.04   // 0→FADE_IN   : fade from black
 const FADE_OUT = 0.94   // FADE_OUT→1  : fade to black
 
-export default function ChapterSection({ chapter, frames, onActive }) {
+export default function ChapterSection({ chapter, frames, onActive, isLast = false }) {
   const sectionRef = useRef(null)
   const canvasRef = useRef(null)
   const overlayRef = useRef(null)
@@ -134,8 +134,8 @@ export default function ChapterSection({ chapter, frames, onActive }) {
       // text overlay — fade in on entry, fade out on exit
       const overlay = overlayRef.current
       if (overlay) {
-        const opacity = p < FADE_IN ? p / FADE_IN
-          : p > FADE_OUT ? (1 - p) / (1 - FADE_OUT)
+        const opacity = p < FADE_IN  ? p / FADE_IN
+          : (!isLast && p > FADE_OUT) ? (1 - p) / (1 - FADE_OUT)
             : 1
         const y = p < FADE_IN ? 28 * (1 - p / FADE_IN) : 0
         overlay.style.opacity = opacity
@@ -148,7 +148,7 @@ export default function ChapterSection({ chapter, frames, onActive }) {
       if (fade) {
         let black = 0
         if (p < FADE_IN) black = 1 - (p / FADE_IN)
-        else if (p > FADE_OUT) black = (p - FADE_OUT) / (1 - FADE_OUT)
+        else if (!isLast && p > FADE_OUT) black = (p - FADE_OUT) / (1 - FADE_OUT)
         fade.style.opacity = black
       }
 
@@ -170,7 +170,7 @@ export default function ChapterSection({ chapter, frames, onActive }) {
       window.removeEventListener('scroll', handleScroll)
       cancelAnimationFrame(rafId)
     }
-  }, [frames, chapter, onActive])
+  }, [frames, chapter, onActive, isLast])
 
   return (
     <div ref={sectionRef} style={{ height: '300vh', position: 'relative' }}>

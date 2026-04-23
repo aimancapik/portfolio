@@ -91,12 +91,13 @@ function App() {
           <ScrollProgressBar />
           <NoiseOverlay />
 
-          {CHAPTERS.map(chapter => (
+          {CHAPTERS.map((chapter, i) => (
             <ChapterSection
               key={chapter.id}
               chapter={chapter}
               frames={allFrames[chapter.id] || []}
               onActive={handleActive}
+              isLast={i === CHAPTERS.length - 1}
             />
           ))}
         </>

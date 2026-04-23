@@ -1,15 +1,13 @@
-const genesisGlob  = import.meta.glob('/src/assets/frames/genesis/*.{png,jpg,jpeg}',  { eager: true })
-const thegrindGlob = import.meta.glob('/src/assets/frames/thegrind/*.{png,jpg,jpeg}', { eager: true })
-const arsenalGlob  = import.meta.glob('/src/assets/frames/arsenal/*.{png,jpg,jpeg}',  { eager: true })
-const thecallGlob  = import.meta.glob('/src/assets/frames/thecall/*.{png,jpg,jpeg}',  { eager: true })
-
-function sortedUrls(glob) {
-  return Object.keys(glob).sort().map(k => glob[k].default)
+// Frames live in public/frames/ — served as static assets, no Vite processing
+export function getChapterFrameUrls(chapter) {
+  const { frameFolder, totalFrames } = chapter
+  return Array.from({ length: totalFrames }, (_, i) =>
+    `${frameFolder}/frame_${String(i).padStart(3, '0')}.webp`
+  )
 }
 
-export const FRAME_URLS = {
-  genesis:  sortedUrls(genesisGlob),
-  thegrind: sortedUrls(thegrindGlob),
-  arsenal:  sortedUrls(arsenalGlob),
-  thecall:  sortedUrls(thecallGlob),
-}
+// Map of chapterId → URL array (built once at module load)
+import { CHAPTERS } from '../data/chapters'
+export const FRAME_URLS = Object.fromEntries(
+  CHAPTERS.map(c => [c.id, getChapterFrameUrls(c)])
+)
